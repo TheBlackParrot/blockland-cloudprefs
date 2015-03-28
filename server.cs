@@ -20,6 +20,16 @@ function CloudPreferencesHTTP::onLine(%this,%line) {
 	if(getSubStr(%line,0,2) $= "//") {
 		return;
 	}
+	if(getSubStr(%line,0,5) $= "ADDON") {
+		%addon = getWord(%line,1);
+		if(findFirstFile("Add-Ons/" @ %addon @ "/server.cs") !$= "") {
+			echo("\c4[Cloud] Loading" SPC %addon);
+			exec("Add-Ons/" @ %addon @ "/server.cs");
+		} else {
+			echo("\c2[Cloud] ERROR: Requested addon" SPC %addon SPC "does not exist!");
+		}
+		return;
+	}
 	if(getSubStr(%line,0,2) $= "+!") {
 		if($CloudPreferences::RequiredAddon !$= "") {
 			echo("\c2[Cloud] ERROR:" SPC $CloudPreferences::RequiredAddon SPC "is already set as a required addon!");
